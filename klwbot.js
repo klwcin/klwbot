@@ -8,10 +8,14 @@ const TextCommand = Telegram.TextCommand
 const tg = new Telegram.Telegram(token, {
     workers: 1,
     webAdmin: {
-        port: 8081,
+        port: 8080,
         host: '0.0.0.0'
     }
 })
+
+if(process.env.NODE_ENV === 'production') {
+    tg.setWebHook(process.env.HEROKU_URL + tg.token)
+}
 
 class PingController extends TelegramBaseController {
     /**
