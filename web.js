@@ -5,8 +5,8 @@ var bodyParser = require('body-parser')
 var app = express()
 app.use(bodyParser.json())
 
-app.get('/', function (req, res) {
-  res.json({ version: packageInfo.version })
+app.get('/', (req, res) => {
+  res.json({ version: packageInfo.version, token: process.env.TOKEN })
 })
 
 var server = app.listen(process.env.PORT, '0.0.0.0', function () {
@@ -15,8 +15,8 @@ var server = app.listen(process.env.PORT, '0.0.0.0', function () {
   console.log('Web server started at http://%s:%s', host, port)
 })
 
-module.exports = function (bot) {
-  app.post('/' + bot.token, function (req, res) {
+module.exports = (bot) => {
+  app.post('/' + bot.token, (req, res) => {
     bot.processUpdate(req.body)
     res.sendStatus(200)
   })
