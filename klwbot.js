@@ -17,12 +17,12 @@ if(process.env.NODE_ENV === 'production') {
     // Production (Heroku)
     const tg = new Telegram.Telegram(token, {
         webAdmin: {
-            port: 8080,
+            port: 8081,
             host: '0.0.0.0'
         },
         webhook: {
-            url: process.env.HEROKU_URL || 'https://klwbot.herokuapp.com',
-            port: 443,
+            url: process.env.HEROKU_URL,
+            port: 3000,
             host: '0.0.0.0'
         }
     })
