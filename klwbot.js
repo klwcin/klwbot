@@ -17,7 +17,7 @@ const CronController = require('./controllers/CronController')
 const tg = new Telegram.Telegram(token, {
     workers: 1,
     webAdmin: {
-        port: 80,
+        port: /*80*/ 443,
         host: '0.0.0.0'
     }
 })
