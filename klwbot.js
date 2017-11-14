@@ -8,7 +8,7 @@ const TextCommand = Telegram.TextCommand
 const tg = new Telegram.Telegram(token, {
     workers: 1,
     webAdmin: {
-        port: 8080,
+        port: 8081,
         host: '0.0.0.0'
     }
 })
