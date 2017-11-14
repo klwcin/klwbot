@@ -21,8 +21,8 @@ if(process.env.NODE_ENV === 'production') {
             host: '0.0.0.0'
         },
         webhook: {
-            url: process.env.HEROKU_URL,
-            port: 3000,
+            url: process.env.HEROKU_URL || 'https://klwbot.herokuapp.com',
+            port: 443,
             host: '0.0.0.0'
         }
     })
