@@ -16,10 +16,6 @@ const CronController = require('./controllers/CronController')
 if(process.env.NODE_ENV === 'production') {
     // Production (Heroku)
     const tg = new Telegram.Telegram(token, {
-        webAdmin: {
-            port: 80,
-            host: '0.0.0.0'
-        },
         webhook: {
             url: process.env.HEROKU_URL,
             port: process.env.PORT,
