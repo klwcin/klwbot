@@ -6,7 +6,7 @@ var app = express()
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
-  res.json({ version: packageInfo.version, token: process.env.TOKEN })
+  res.json({ version: packageInfo.version, port: process.env.PORT, heroku: process.env.HEROKU_URL, env: process.env.NODE_ENV })
 })
 
 var server = app.listen(process.env.PORT, '0.0.0.0', function () {
