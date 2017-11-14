@@ -7,6 +7,7 @@ const TelegramBaseController = Telegram.TelegramBaseController
  */
 module.exports = class ConversationController extends TelegramBaseController {
     /**
+     * Handler used to say hello as '/start'
      * @param {Scope} $
      */
     startHandler($) {
@@ -18,11 +19,12 @@ module.exports = class ConversationController extends TelegramBaseController {
 
         $.sendMessage(
             'E aí galera? Se for rolar um café, tamos aí, ' + 
-            'é só mandar um /remember que eu lembro todo mundo.'
+            'é só mandar um /remind que eu lembro todo mundo.'
         )
     }
 
     /**
+     * Handler used to respond to bot direct mentions
      * @param {Scope} $
      */
     mentionHandler($) {
@@ -32,6 +34,9 @@ module.exports = class ConversationController extends TelegramBaseController {
         $.sendMessage(message + '. Não sou muito de conversar ainda...')
     }
 
+    /**
+     * Return handlers as commands
+     */
     get routes() {
         return {
             'startCommand': 'startHandler',

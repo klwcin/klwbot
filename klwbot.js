@@ -17,12 +17,12 @@ if(process.env.NODE_ENV === 'production') {
     // Production (Heroku)
     const tg = new Telegram.Telegram(token, {
         webAdmin: {
-            port: 8081,
+            port: 80,
             host: '0.0.0.0'
         },
         webhook: {
             url: process.env.HEROKU_URL,
-            port: 3000,
+            port: process.env.PORT,
             host: '0.0.0.0'
         }
     })
@@ -30,7 +30,7 @@ if(process.env.NODE_ENV === 'production') {
     // Create routes
     tg.router
         .when(new TextCommand('/start', 'startCommand'), new ConversationController())
-        .when(new RegexpCommand(/@klwbot/g, 'mentionCommand'), new ConversationController())
+        .when(new RegexpCommand(/^[^\/]*@klwbot/g, 'mentionCommand'), new ConversationController())
         .when(new TextCommand('/remember', 'cronCommand'), new CronController())
         .otherwise(new ErrorHandlerController())
 } else {
@@ -38,7 +38,7 @@ if(process.env.NODE_ENV === 'production') {
     const tg = new Telegram.Telegram(token, {
         workers: 1,
         webAdmin: {
-            port: 8081,
+            port: 80,
             host: '0.0.0.0'
         }
     })
@@ -46,7 +46,7 @@ if(process.env.NODE_ENV === 'production') {
     // Create routes
     tg.router
         .when(new TextCommand('/start', 'startCommand'), new ConversationController())
-        .when(new RegexpCommand(/@klwbot/g, 'mentionCommand'), new ConversationController())
-        .when(new TextCommand('/remember', 'cronCommand'), new CronController())
+        .when(new RegexpCommand(/^[^\/]*@klwbot/g, 'mentionCommand'), new ConversationController())
+        .when(new TextCommand('/remind', 'cronCommand'), new CronController())
         .otherwise(new ErrorHandlerController())
 }

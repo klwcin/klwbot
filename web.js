@@ -6,7 +6,7 @@ var app = express()
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
-  res.json({ version: packageInfo.version })
+  res.json({ name: packageInfo.name, version: packageInfo.version })
 })
 
 var server = app.listen(process.env.PORT, '0.0.0.0', function () {
