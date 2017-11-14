@@ -1,12 +1,15 @@
 'use strict'
 
+const token = process.env.TOKEN
+
 const Telegram = require('telegram-node-bot')
 const TelegramBaseController = Telegram.TelegramBaseController
 const TextCommand = Telegram.TextCommand
-const tg = new Telegram.Telegram('469233334:AAGQVvt62SQt8BQPEikJQ48RqwS6fD_WErw', {
+const tg = new Telegram.Telegram(token, {
+    workers: 1,
     webAdmin: {
         port: 8081,
-        host: 'localhost'
+        host: '0.0.0.0'
     }
 })
 
@@ -33,7 +36,5 @@ class OtherwiseController extends TelegramBaseController {
 }
 
 tg.router
-    .when(
-        new TextCommand('ping', 'pingCommand'),
-        new PingController()
-    ).otherwise(new OtherwiseController())
+    .when(new TextCommand('ping', 'pingCommand'), new PingController())
+    .otherwise(new OtherwiseController())
