@@ -6,10 +6,10 @@ var app = express()
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
-  res.json({ name: packageInfo.name, version: packageInfo.version })
+  res.json({ version: packageInfo.version })
 })
 
-var server = app.listen(process.env.PORT, '0.0.0.0', function () {
+var server = app.listen(process.env.PORT, '0.0.0.0', () => {
   var host = server.address().address
   var port = server.address().port
   console.log('Web server started at http://%s:%s', host, port)
