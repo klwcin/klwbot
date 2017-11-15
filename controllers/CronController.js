@@ -28,7 +28,7 @@ module.exports = class CronController extends TelegramBaseController {
                 'Ok @' + $.message.from.username +
                 '. Vou tentar lembrar a galera quando chegar a hora.'
             )
-
+        
             // Schedule
             task = cron.schedule('0 10,15 * * *', () => {
                 $.sendMessage('Galera, hora do café, quem vai? Alguém já foi?')
@@ -42,9 +42,10 @@ module.exports = class CronController extends TelegramBaseController {
                                 $.message.text.toLowerCase().includes('bora') ||
                                 $.message.text.toLowerCase().includes('🙋‍♂️')) {
                         $.sendMessage(`Bora @${$.message.from.username}!`)
-                    // Forever alone Bot :'(
+                    // Not today...
                     } else if ($.message.text.toLowerCase().includes('não')) {
                         $.sendMessage('Ok. Fazer o quê né?')
+                    // Forever alone Bot :'(
                     } else {
                         $.sendMessage('Ou eu entendi errado ou me ignoraram... 😶')
                     }
