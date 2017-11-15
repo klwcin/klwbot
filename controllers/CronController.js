@@ -36,14 +36,17 @@ module.exports = class CronController extends TelegramBaseController {
                 $.waitForRequest.then($ => {
                     // Bot is late :(
                     if ($.message.text.toLowerCase().includes('já')) {
-                        $.sendMessage('Pô, nem me chamaram...')
+                        $.sendMessage('Pô, nem me chamaram... 😭')
                     // Let's go! :D
                     } else if ($.message.text.toLowerCase().includes('eu') ||
-                                $.message.text.toLowerCase().includes('bora')) {
+                                $.message.text.toLowerCase().includes('bora') ||
+                                $.message.text.toLowerCase().includes('🙋‍♂️')) {
                         $.sendMessage(`Bora @${$.message.from.username}!`)
                     // Forever alone Bot :'(
+                    } else if ($.message.text.toLowerCase().includes('não')) {
+                        $.sendMessage('Ok. Fazer o quê né?')
                     } else {
-                        $.sendMessage('Ou eu entendi errado ou me ignoraram...')
+                        $.sendMessage('Ou eu entendi errado ou me ignoraram... 😶')
                     }
                 })
             })

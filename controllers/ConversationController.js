@@ -29,16 +29,16 @@ module.exports = class ConversationController extends TelegramBaseController {
         // Wait for response
         $.waitForRequest.then($ => {
             if ($.message.from.username === user) {
-                $.sendMessage('Interessante... mas não sei o que dizer sobre isso.')
+                $.sendMessage('Interessante... mas não sei o que dizer sobre isso. 🤔')
             } else {
                 $.waitForRequest.then($ => {
                     if ($.message.from.username === user) {
                         $.sendMessage(
                             `Só um momento @${$.message.from.username}` +
-                            `vou só responder @${user} rapidinho.`
+                            `vou só responder @${user} rapidinho. 😁`
                         )
                     } else {
-                        $.sendMessage('Calem-se! Calem-se! Vocês me deixam looouuuco!')
+                        $.sendMessage('Calem-se! Calem-se! Vocês me deixam looouuuco! 😡😡😡')
                     }
                 })
             }
