@@ -14,12 +14,7 @@ const ConversationController = require('./controllers/ConversationController')
 const CronController = require('./controllers/CronController')
 
 // Create the bot
-const tg = new Telegram.Telegram(token, {
-    webAdmin: {
-        port: 80,
-        host: 'localhost'
-    }
-})
+const tg = new Telegram.Telegram(token)
 
 // Create routes
 tg.router
