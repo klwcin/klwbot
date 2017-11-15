@@ -1,5 +1,5 @@
 // Get Token from env
-require('./token')
+// require('./token')
 const token = process.env.TOKEN
 
 // Requires and libs set
