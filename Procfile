@@ -1,1 +1,1 @@
-worker: node klwbot.js
+web: node klwbot.js
