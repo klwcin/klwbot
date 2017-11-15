@@ -11,15 +11,10 @@ module.exports = class ConversationController extends TelegramBaseController {
      * @param {Scope} $
      */
     startHandler($) {
-        console.log($._message)
-        console.log($._isEditedMessage)
-        console.log($._message._from)
-        console.log($._message._chat)
-        console.log($._message._text)
-
         $.sendMessage(
             'E aí galera? Se for rolar um café, tamos aí, ' + 
-            'é só mandar um /remind que eu lembro todo mundo.'
+            'é só mandar um /remind que eu lembro todo mundo.' +
+            'Se precisarem de mim é só me chamar (@klwbot).'
         )
     }
 
@@ -28,10 +23,26 @@ module.exports = class ConversationController extends TelegramBaseController {
      * @param {Scope} $
      */
     mentionHandler($) {
-        console.log($._message)
+        var user = $.message.from.username
 
-        var message = 'Olá @' + $._message._from._username
-        $.sendMessage(message + '. Não sou muito de conversar ainda...')
+        $.sendMessage('Olá @' + user + '. Quais as novas?')
+        // Wait for response
+        $.waitForRequest.then($ => {
+            if ($.message.from.username === user) {
+                $.sendMessage('Interessante... mas não sei o que dizer sobre isso.')
+            } else {
+                $.waitForRequest.then($ => {
+                    if ($.message.from.username === user) {
+                        $.sendMessage(
+                            `Só um momento @${$.message.from.username}` +
+                            `vou só responder @${user} rapidinho.`
+                        )
+                    } else {
+                        $.sendMessage('Calem-se! Calem-se! Vocês me deixam looouuuco!')
+                    }
+                })
+            }
+        })
     }
 
     /**

@@ -19,19 +19,33 @@ module.exports = class CronController extends TelegramBaseController {
         if (task) {
             // Alert message
             $.sendMessage(
-                '@' + $._message._from._username +
+                '@' + $.message.from.username +
                 ', já estou ligado, mas valeu por lembrar.'
             )
         } else {    // No task yet
             // Confirmation message
             $.sendMessage(
-                'Ok @' + $._message._from._username +
+                'Ok @' + $.message.from.username +
                 '. Vou tentar lembrar a galera quando chegar a hora.'
             )
 
             // Schedule
-            task = cron.schedule('0,43 10,15,17 * * *', () => {
-                $.sendMessage('Galera, hora do café? Quem vai?')
+            task = cron.schedule('0 10,15 * * *', () => {
+                $.sendMessage('Galera, hora do café, quem vai? Alguém já foi?')
+                // Wait for response
+                $.waitForRequest.then($ => {
+                    // Bot is late :(
+                    if ($.message.text.toLowerCase().includes('já')) {
+                        $.sendMessage('Pô, nem me chamaram...')
+                    // Let's go! :D
+                    } else if ($.message.text.toLowerCase().includes('eu') ||
+                                $.message.text.toLowerCase().includes('bora')) {
+                        $.sendMessage(`Bora @${$.message.from.username}!`)
+                    // Forever alone Bot :'(
+                    } else {
+                        $.sendMessage('Ou eu entendi errado ou me ignoraram...')
+                    }
+                })
             })
         }
     }
