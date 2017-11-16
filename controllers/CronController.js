@@ -4,7 +4,7 @@ const Telegram = require('telegram-node-bot')
 const TelegramBaseController = Telegram.TelegramBaseController
 
 // Variables
-task = false     // The cron task used to remind users
+var task = false
 
 /**
  * Controls the cron cicle of the bot
@@ -15,7 +15,6 @@ module.exports = class CronController extends TelegramBaseController {
      * @param {Scope} $
      */
     cronHandler($) {
-        console.log(new Date().toLocaleTimeString())
         // Params, remind using it
         if ($.message.text.toLowerCase().includes(':')) {
             var parts = $.message.text.split(':')
@@ -99,11 +98,24 @@ module.exports = class CronController extends TelegramBaseController {
     }
 
     /**
+     * Handler for stopping the task for common hours
+     * @param {Scope} $
+     */
+    stopHandler($) {
+        $.sendMessage('Ok, não vou lembrar mais ninguém nas horas padrão.')
+        if (task) {
+            task.destroy()
+            task = false
+        }
+    }
+
+    /**
      * Return handlers as commands
      */
     get routes() {
         return {
-            'cronCommand': 'cronHandler'
+            'cronCommand': 'cronHandler',
+            'stopCommand': 'stopHandler'
         }
     }
 }
