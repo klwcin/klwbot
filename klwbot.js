@@ -25,9 +25,10 @@ const err = new ErrorHandlerController()
 // Create routes
 tg.router
     .when(new TextCommand('/start', 'startCommand'), conversation)
-    .when(new TextCommand('/stop', 'stopCommand'), cron)
+    .when(new TextCommand('/help', 'helpCommand'), conversation)
     .when(new TextCommand('/place', 'placeCommand'), meeting)
     .when(new TextCommand('/search', 'searchCommand'), conversation)
     .when(new RegexpCommand(/^[^\/]*@klwbot/g, 'mentionCommand'), conversation)
     .when(new RegexpCommand(/\/remind/g, 'cronCommand'), cron)
+    .when(new TextCommand('/stop', 'stopCommand'), cron)
     .otherwise(err)

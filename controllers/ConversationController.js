@@ -16,11 +16,30 @@ module.exports = class ConversationController extends TelegramBaseController {
      */
     startHandler($) {
         $.sendMessage(
-            'E aí galera? Se for rolar um café, tamos aí, ' + 
-            'é só mandar um /remind que eu lembro todo mundo.' +
-            '\nOutra coisa... lembram de onde fica a sala 2 né (B010)? ' +
-            'se tiverem esquecido, é só mandar um /place que eu mostro.' +
-            '\nSe precisarem de mim é só me chamar (@klwbot).'
+            'E aí galera? Se for rolar um café, tamos aí.' + 
+            ' É só mandar um /remind que eu lembro todo mundo.' +
+            '\nSe precisarem de mim é só me chamar (@klwbot).\n\n' +
+            'Ou, em caso de dúvidas... é só mandar um /help que eu explico melhor. 😉'
+        )
+    }
+
+    /**
+     * Handler used to explain all commands
+     * @param {Scope} $
+     */
+    helpHandler($) {
+        $.sendMessage(
+            'Tá beleza @' + $.message.from.username + ', saca só o que temos por enquanto:\n\n' +
+            '/start: Manda aquela mensagem inicial de boas vindas, não dever ser mais útil agora.\n' +
+            '/help: Bem, aqui estamos, né?\n' +
+            '/place: Manda a localização da Sala 2 (B010). Não é tão útil, na verdade.\n' +
+            '/search $term: Faz uma busca rápida no Google usando $term como parâmetro.' +
+            ' Mas sem abusar, só 5 resultados. Não quero deixar meu amigo Google com raiva.\n' +
+            '/remind $time: Bem, se não passar o $time, vai lembrar a galera nas horas padrão.' +
+            ' Se passar o $time, cria um reminder para a hora escolhida (O formado é hh:mm).\n' +
+            '/stop: Apaga o reminder das horas padrão. Por favor evite fazer isso. Sério mesmo.\n\n' +
+            'No mais, você sempre pode tentar conversar comigo me mencionando (@klwbot).' +
+            ' Vou fazer meu possível para responder.'
         )
     }
 
@@ -112,7 +131,8 @@ module.exports = class ConversationController extends TelegramBaseController {
         return {
             'startCommand': 'startHandler',
             'mentionCommand': 'mentionHandler',
-            'searchCommand': 'searchHandler'
+            'searchCommand': 'searchHandler',
+            'helpCommand': 'helpHandler'
         }
     }
 }
