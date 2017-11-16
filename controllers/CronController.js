@@ -15,6 +15,7 @@ module.exports = class CronController extends TelegramBaseController {
      * @param {Scope} $
      */
     cronHandler($) {
+        console.log(new Date().toLocaleTimeString())
         // Params, remind using it
         if ($.message.text.toLowerCase().includes(':')) {
             var parts = $.message.text.split(':')
