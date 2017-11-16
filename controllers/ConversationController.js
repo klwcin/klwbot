@@ -30,13 +30,14 @@ module.exports = class ConversationController extends TelegramBaseController {
     helpHandler($) {
         $.sendMessage(
             'Tá beleza @' + $.message.from.username + ', saca só o que temos por enquanto:\n\n' +
-            '/start: Manda aquela mensagem inicial de boas vindas, não dever ser mais útil agora.\n' +
-            '/help: Bem, aqui estamos, né?\n' +
-            '/place: Manda a localização da Sala 2 (B010). Não é tão útil, na verdade.\n' +
+            '/start: Manda aquela mensagem inicial de boas vindas, não dever ser mais útil agora.\n\n' +
+            '/help: Bem, aqui estamos, né?\n\n' +
+            '/hour: Diz a hora aqui no meu servidor. Vai que estamos em horários diferentes né?\n\n' +
+            '/place: Manda a localização da Sala 2 (B010). Não é tão útil, na verdade.\n\n' +
             '/search $term: Faz uma busca rápida no Google usando $term como parâmetro.' +
-            ' Mas sem abusar, só 5 resultados. Não quero deixar meu amigo Google com raiva.\n' +
+            ' Mas sem abusar, só 5 resultados. Não quero deixar meu amigo Google com raiva.\n\n' +
             '/remind $time: Bem, se não passar o $time, vai lembrar a galera nas horas padrão.' +
-            ' Se passar o $time, cria um reminder para a hora escolhida (O formado é hh:mm).\n' +
+            ' Se passar o $time, cria um reminder para a hora escolhida (O formado é hh:mm).\n\n' +
             '/stop: Apaga o reminder das horas padrão. Por favor evite fazer isso. Sério mesmo.\n\n' +
             'No mais, você sempre pode tentar conversar comigo me mencionando (@klwbot).' +
             ' Vou fazer meu possível para responder.'
@@ -125,6 +126,17 @@ module.exports = class ConversationController extends TelegramBaseController {
     }
 
     /**
+     * Says the hour in server
+     * @param {Scope} $ 
+     */
+    hourHandler($) {
+        $.sendMessage(
+            'A hora aqui no servidor agora é: ' +
+            new Date().toLocaleDateString() + 'h.'
+        )
+    }
+
+    /**
      * Return handlers as commands
      */
     get routes() {
@@ -132,7 +144,8 @@ module.exports = class ConversationController extends TelegramBaseController {
             'startCommand': 'startHandler',
             'mentionCommand': 'mentionHandler',
             'searchCommand': 'searchHandler',
-            'helpCommand': 'helpHandler'
+            'helpCommand': 'helpHandler',
+            'hourCommand': 'hourHandler'
         }
     }
 }

@@ -26,6 +26,7 @@ const err = new ErrorHandlerController()
 tg.router
     .when(new TextCommand('/start', 'startCommand'), conversation)
     .when(new TextCommand('/help', 'helpCommand'), conversation)
+    .when(new TextCommand('/hour', 'hourCommand'), conversation)
     .when(new TextCommand('/place', 'placeCommand'), meeting)
     .when(new TextCommand('/search', 'searchCommand'), conversation)
     .when(new RegexpCommand(/^[^\/]*@klwbot/g, 'mentionCommand'), conversation)
