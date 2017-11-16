@@ -22,5 +22,5 @@ tg.router
     .when(new TextCommand('/start', 'startCommand'), new ConversationController())
     .when(new TextCommand('/place', 'placeCommand'), new MeetingController())
     .when(new RegexpCommand(/^[^\/]*@klwbot/g, 'mentionCommand'), new ConversationController())
-    .when(new TextCommand('/remind', 'cronCommand'), new CronController())
+    .when(new RegexpCommand(/\/remind[ \d:\d]*/g, 'cronCommand'), new CronController())
     .otherwise(new ErrorHandlerController())
