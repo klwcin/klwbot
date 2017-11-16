@@ -15,7 +15,6 @@ module.exports = class CronController extends TelegramBaseController {
      * @param {Scope} $
      */
     cronHandler($) {
-        console.log($.message.text)
         // Params, remind using it
         if ($.message.text.toLowerCase().includes(':')) {
             var parts = $.message.text.split(':')
@@ -41,7 +40,8 @@ module.exports = class CronController extends TelegramBaseController {
                     // Let's go! :D
                     } else if ($.message.text.toLowerCase().includes('eu') ||
                                 $.message.text.toLowerCase().includes('bora') ||
-                                $.message.text.toLowerCase().includes('🙋‍♂️')) {
+                                $.message.text.toLowerCase().includes('🙋‍♂️') ||
+                                $.message.text.toLowerCase().includes('👍')) {
                         $.sendMessage(`Bora @${$.message.from.username}!`)
                     // Not today...
                     } else if ($.message.text.toLowerCase().includes('não')) {
@@ -81,7 +81,8 @@ module.exports = class CronController extends TelegramBaseController {
                         // Let's go! :D
                         } else if ($.message.text.toLowerCase().includes('eu') ||
                                     $.message.text.toLowerCase().includes('bora') ||
-                                    $.message.text.toLowerCase().includes('🙋‍♂️')) {
+                                    $.message.text.toLowerCase().includes('🙋‍♂️') ||
+                                    $.message.text.toLowerCase().includes('👍')) {
                             $.sendMessage(`Bora @${$.message.from.username}!`)
                         // Not today...
                         } else if ($.message.text.toLowerCase().includes('não')) {
