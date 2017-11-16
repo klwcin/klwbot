@@ -132,7 +132,7 @@ module.exports = class ConversationController extends TelegramBaseController {
     hourHandler($) {
         $.sendMessage(
             'A hora aqui no servidor agora é: ' +
-            new Date().toLocaleDateString() + 'h.'
+            new Date().toLocaleTimeString() + 'h.'
         )
     }
 
