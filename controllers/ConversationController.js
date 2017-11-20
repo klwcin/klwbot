@@ -34,6 +34,8 @@ module.exports = class ConversationController extends TelegramBaseController {
             '/help: Bem, aqui estamos, né?\n\n' +
             '/hour: Diz a hora aqui no meu servidor. Vai que estamos em horários diferentes né?\n\n' +
             '/place: Manda a localização da Sala 2 (B010). Não é tão útil, na verdade.\n\n' +
+            '/me: Pede sua localização e compara com a da Sala 2 (B010). Pra saber se você está perto.\n\n' +
+            '/toast: Me chama pra brindar.\n\n' +
             '/search $term: Faz uma busca rápida no Google usando $term como parâmetro.' +
             ' Mas sem abusar, só 5 resultados. Não quero deixar meu amigo Google com raiva.\n\n' +
             '/remind $time: Bem, se não passar o $time, vai lembrar a galera nas horas padrão.' +
@@ -59,7 +61,7 @@ module.exports = class ConversationController extends TelegramBaseController {
         } else {
             $.sendMessage('Olá @' + user + '. Quais as novas?')
             // Wait for response
-            $.waitForRequest.then($ => {
+            $.waitForRequest.then(($) => {
                 // Same user
                 if ($.message.from.username === user) {
                     $.sendMessage('Interessante... mas não sei o que dizer sobre isso. 🤔')
@@ -71,7 +73,7 @@ module.exports = class ConversationController extends TelegramBaseController {
                     )
     
                     // Wait again
-                    $.waitForRequest.then($ => {
+                    $.waitForRequest.then(($) => {
                         // Same user
                         if ($.message.from.username === user) {
                             $.sendMessage('Tem muita gente falando aqui. Depois a gente conversa.')
@@ -137,6 +139,16 @@ module.exports = class ConversationController extends TelegramBaseController {
     }
 
     /**
+     * Toasts
+     * @param {Scope} $ 
+     */
+    toastHandler($) {
+        $.sendMessage(
+            'Um brinde a nós! E ao grande Kopi Luwak. ☕'
+        )
+    }
+
+    /**
      * Return handlers as commands
      */
     get routes() {
@@ -145,7 +157,8 @@ module.exports = class ConversationController extends TelegramBaseController {
             'mentionCommand': 'mentionHandler',
             'searchCommand': 'searchHandler',
             'helpCommand': 'helpHandler',
-            'hourCommand': 'hourHandler'
+            'hourCommand': 'hourHandler',
+            'toastCommand': 'toastHandler'
         }
     }
 }

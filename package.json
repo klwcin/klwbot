@@ -11,12 +11,16 @@
     "path": "^0.12.7",
     "telegram-node-bot": "^4.0.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "export $(cat .env | xargs) && node klwbot.js",
+    "start_dev": "export $(cat .env | xargs) && nodemon klwbot.js",
     "set_env": "export $(cat .env | xargs)",
     "start_win": "env.cmd && node klwbot.js",
+    "start_win_dev": "env.cmd && nodemon klwbot.js",
     "set_env_win": "env.cmd",
     "switch_to_dev": "export $(cat .env | xargs) && wget --spider https://api.telegram.org/bot$TOKEN/setWebhook?url= --delete-after && node klwbot.js"
   },

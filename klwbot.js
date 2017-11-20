@@ -13,6 +13,9 @@ const ConversationController = require('./controllers/ConversationController')
 const CronController = require('./controllers/CronController')
 const MeetingController = require('./controllers/MeetingController')
 
+// Get Extensions
+const CorrectMenuScopeExtension = require('./extensions/CorrectMenuScopeExtension')
+
 // Create the bot
 const tg = new Telegram.Telegram(token)
 
@@ -28,8 +31,13 @@ tg.router
     .when(new TextCommand('/help', 'helpCommand'), conversation)
     .when(new TextCommand('/hour', 'hourCommand'), conversation)
     .when(new TextCommand('/place', 'placeCommand'), meeting)
+    .when(new TextCommand('/me', 'meCommand'), meeting)
+    .when(new TextCommand('/toast', 'toastCommand'), conversation)
     .when(new TextCommand('/search', 'searchCommand'), conversation)
     .when(new RegexpCommand(/^[^\/]*@klwbot/g, 'mentionCommand'), conversation)
     .when(new RegexpCommand(/\/remind/g, 'cronCommand'), cron)
     .when(new TextCommand('/stop', 'stopCommand'), cron)
     .otherwise(err)
+
+// Add custom Scope extension
+tg.addScopeExtension(CorrectMenuScopeExtension)
