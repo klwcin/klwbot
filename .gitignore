@@ -57,4 +57,3 @@ typings/
 # dotenv environment variables files
 .env
 env.cmd
-token.js
