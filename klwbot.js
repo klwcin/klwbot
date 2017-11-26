@@ -33,6 +33,7 @@ tg.router
     .when(new TextCommand('/place', 'placeCommand'), meeting)
     .when(new TextCommand('/me', 'meCommand'), meeting)
     .when(new TextCommand('/toast', 'toastCommand'), conversation)
+    .when(new TextCommand('/nlu', 'nluCommand'), conversation)
     .when(new TextCommand('/search', 'searchCommand'), conversation)
     .when(new RegexpCommand(/^[^\/]*@klwbot/g, 'mentionCommand'), conversation)
     .when(new RegexpCommand(/\/remind/g, 'cronCommand'), cron)

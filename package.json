@@ -9,7 +9,8 @@
     "heroku-cli": "^6.14.36",
     "node-cron": "^1.2.1",
     "path": "^0.12.7",
-    "telegram-node-bot": "^4.0.5"
+    "telegram-node-bot": "^4.0.5",
+    "watson-developer-cloud": "^2.42.0"
   },
   "devDependencies": {
     "nodemon": "^1.12.1"
