@@ -1,11 +1,10 @@
 // Requires and libs set
-const Telegram = require('telegram-node-bot')
-const TelegramBaseController = Telegram.TelegramBaseController
+const KlwBaseController = require('./KlwBaseController')
 
 /**
  * Used to handle errors
  */
-module.exports = class ErrorHandlerController extends TelegramBaseController {
+module.exports = class ErrorHandlerController extends KlwBaseController {
     /**
      * All that is not defined goes to the log
      * @param {Scope} $

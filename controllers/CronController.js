@@ -1,7 +1,6 @@
 // Requires and libs set
 const cron = require('node-cron')
-const Telegram = require('telegram-node-bot')
-const TelegramBaseController = Telegram.TelegramBaseController
+const KlwBaseController = require('./KlwBaseController')
 
 // Variables
 var task = false
@@ -9,7 +8,7 @@ var task = false
 /**
  * Controls the cron cicle of the bot
  */
-module.exports = class CronController extends TelegramBaseController {
+module.exports = class CronController extends KlwBaseController {
     /**
      * Handler for cron task (/remind mapped route)
      * @param {Scope} $
@@ -50,9 +49,7 @@ module.exports = class CronController extends TelegramBaseController {
                     } else {
                         $.sendMessage('Ou eu entendi errado ou me ignoraram... 😶')
                     }
-                    reminder.destroy()
                 })
-                reminder.stop()
             })
         // No params, default hours
         } else {

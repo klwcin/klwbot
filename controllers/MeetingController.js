@@ -1,7 +1,6 @@
 // Requires and libs set
 const cron = require('node-cron')
-const Telegram = require('telegram-node-bot')
-const TelegramBaseController = Telegram.TelegramBaseController
+const KlwBaseController = require('./KlwBaseController')
 const Caulculations = require('../utils/Calculations')
 
 // Local variables
@@ -11,7 +10,7 @@ var sala2 = { lat: -8.055764, lon: -34.951563 }
 /**
  * Controls the bot meeting planning
  */
-module.exports = class MeetingController extends TelegramBaseController {
+module.exports = class MeetingController extends KlwBaseController {
     /**
      * Handler used to show meeting place
      * @param {Scope} $

@@ -1,36 +1,14 @@
 // Requires and libs set
-const Telegram = require('telegram-node-bot')
-const TelegramBaseController = Telegram.TelegramBaseController
+const KlwBaseController = require('./KlwBaseController')
 const google = require('google')
-const NaturalLanguageUnderstandingV1 =
-        require('watson-developer-cloud/natural-language-understanding/v1.js')
-const LanguageTranslatorV2 = require('watson-developer-cloud/language-translator/v2')
-//const ConversationV1 = require('watson-developer-cloud/conversation/v1')
 
 // Set results page size for Google search
 google.resultsPerPage = 5
 
-// Variables (IBM Watson)
-var language_translator = new LanguageTranslatorV2({
-    username: process.env.LANGUAGE_USER,
-    password: process.env.LANGUAGE_PASS,
-    url: 'https://gateway.watsonplatform.net/language-translator/api'
-})
-var nlu = new NaturalLanguageUnderstandingV1({
-    username: process.env.NLU_USER,
-    password: process.env.NLU_PASS,
-    version_date: NaturalLanguageUnderstandingV1.VERSION_DATE_2017_02_27
-})
-/*var conversation = new ConversationV1({
-    username: process.env.CONVERSATION_USER,
-    password: process.env.CONVERSATION_PASS,
-    version_date: ConversationV1.VERSION_DATE_2017_05_26
-})*/
-
 /**
  * Controls the bot conversation and responses
  */
-module.exports = class ConversationController extends TelegramBaseController {
+module.exports = class ConversationController extends KlwBaseController {
     /**
      * Handler used to say hello as '/start'
      * @param {Scope} $
@@ -109,11 +87,45 @@ module.exports = class ConversationController extends TelegramBaseController {
     }
 
     /**
+     * FUTURE PLANS!!! ----- IN PROGRESS!!!!
+     * Handler used to respond to bot direct mentions in the future
+     * @param {Scope} $
+     */
+    futureMentionHandler($) {
+        // Get username from current user
+        var user = $.message.from.username
+
+        // Analyse the text, then...
+        $.analyse('@klwbot').then(() => {
+            var data = $.message.analysis
+
+            var emotions = data.emotion.document.emotion
+            var maxEmotion = { name: 'none', value: 0 }
+            Object.keys(emotions).forEach((emotion) => {
+                // This emotion is greater
+                if (emotions[emotion] > maxEmotion.value) {
+                    maxEmotion.name = emotion
+                    maxEmotion.value = emotions[emotion]
+                }
+            })
+
+            // Respond with this emotion
+            if (maxEmotion.name !== 'none') {
+                $.sendTranslatedMessage(
+                    'I can see your ' + maxEmotion.name +
+                    ' @' + user + '.'
+                )
+            }
+            // console.log(JSON.stringify($.message.analysis, null, 2))
+        })
+    }
+
+    /**
      * Handle Google search
      * @param {Scope} $ 
      */
     searchHandler($) {
-        //Remove mention from search
+        // Remove mention from search
         var searchTerm = $.message.text.toLowerCase().replace(/@klwbot/gi, '')
 
         // Search on google
@@ -149,6 +161,18 @@ module.exports = class ConversationController extends TelegramBaseController {
     }
 
     /**
+     * Get summary info about a text
+     * @param {Scope} $ 
+     */
+    summaryHandler($) {
+        // analyse message
+        $.analyse('/summary').then(() => {
+            var data = $.message.analysis
+            $.sendMessage(JSON.stringify(data, null, 2))
+        })
+    }
+
+    /**
      * Says the hour in server
      * @param {Scope} $ 
      */
@@ -170,56 +194,6 @@ module.exports = class ConversationController extends TelegramBaseController {
     }
 
     /**
-     * Natural language Understanding
-     * (translate from portuguese to english before analyse)
-     * @param {Scope} $ 
-     */
-    nluHandler($) {
-        language_translator.translate({
-            text: $.message.text, source : 'pt', target: 'en' 
-        }, (err, translation) => {
-            if (err) {
-                console.log('error:', err)
-            } else {
-                var trans = translation.translations[0].translation
-                nlu.analyze({
-                    'html': trans,
-                    'features': {
-                      'concepts': {},
-                      'keywords': {},
-                      'emotion': {},
-                      'categories': {},
-                      //'entities': {},
-                      //'metadata': {},
-                      //'relations': {},
-                      //'semantic_roles': {},
-                      'sentiment': {}
-                    }
-                }, (err, response) => {
-                    if (err) {
-                        console.log('error:', err)
-                    } else {
-                        console.log(JSON.stringify(response, null, 2))
-                        $.sendMessage('É sobre esse tema que estamos falando né?')
-                        $.sendMessage(response.concepts[0].dbpedia_resource)
-                    }
-                })
-            }
-        })
-
-        /*conversation.message({
-            input: { text: $.message.text },
-            workspace_id: process.env.CONVERSATION_WORKSPACE_ID
-           }, function(err, response) {
-               if (err) {
-                 console.error(err)
-               } else {
-                 console.log(JSON.stringify(response, null, 2))
-               }
-        })*/
-    }
-
-    /**
      * Return handlers as commands
      */
     get routes() {
@@ -230,7 +204,7 @@ module.exports = class ConversationController extends TelegramBaseController {
             'helpCommand': 'helpHandler',
             'hourCommand': 'hourHandler',
             'toastCommand': 'toastHandler',
-            'nluCommand': 'nluHandler'
+            'summaryCommand': 'summaryHandler'
         }
     }
 }
