@@ -93,7 +93,7 @@ module.exports = class ConversationController extends TelegramBaseController {
      */
     searchHandler($) {
         //Remove mention from search
-        var searchTerm = $.message.text.toLowerCase().replace(/@klwbot/gi, '')
+        var searchTerm = $.message.text.toLowerCase().replace(/@klwbot/gi, '').replace(/\/search /gi, '')
 
         // Search on google
         google(searchTerm, (err, res) => {
@@ -107,22 +107,30 @@ module.exports = class ConversationController extends TelegramBaseController {
                 console.error(err)
             // Use the results
             } else {
-                // Respond to user to wait
-                if ($.message.text.toLowerCase().includes('@klwbot')) {
+                // For each link, send a message, or pass the search if no links received
+                if (res.links.length == 0) {
                     $.sendMessage(
-                        'Sabe, eu não sei muita coisa sobre isso, ' +
-                        'mas pelas minhas pesquisas, talvez esses links ajudem:'
+                        'Infelizmente não consegui parsear as respostas do Google pra você sobre isso, ' +
+                        'mas posso te passar o link da minha pesquisa:'
                     )
+                    $.sendMessage(res.url)
                 } else {
-                    $.sendMessage('Olha, eu achei isso aqui, espero que ajude:')
-                }
-
-                // For each link, send a message
-                res.links.forEach(link => {
-                    if (link.href !== null) {
-                        $.sendMessage(link.href)
+                    // Respond to user to wait
+                    if ($.message.text.toLowerCase().includes('@klwbot')) {
+                        $.sendMessage(
+                            'Sabe, eu não sei muita coisa sobre isso, ' +
+                            'mas pelas minhas pesquisas, talvez esses links ajudem:'
+                        )
+                    } else {
+                        $.sendMessage('Olha, eu achei isso aqui, espero que ajude:')
                     }
-                })
+
+                    res.links.forEach(link => {
+                        if (link.href !== null) {
+                            $.sendMessage(link.href)
+                        }
+                    })
+                }
             }
         })
     }
