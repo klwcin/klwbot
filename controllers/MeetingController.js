@@ -1,7 +1,5 @@
 // Requires and libs set
-const cron = require('node-cron')
-const Telegram = require('telegram-node-bot')
-const TelegramBaseController = Telegram.TelegramBaseController
+const KlwbotBaseController = require('./KlwbotBaseController')
 const Caulculations = require('../utils/Calculations')
 
 // Local variables
@@ -11,12 +9,13 @@ var sala2 = { lat: -8.055764, lon: -34.951563 }
 /**
  * Controls the bot meeting planning
  */
-module.exports = class MeetingController extends TelegramBaseController {
+module.exports = class MeetingController extends KlwbotBaseController {
     /**
      * Handler used to show meeting place
      * @param {Scope} $
      */
     placeHandler($) {
+        this.saveUserAndMessageHistory($)
         $.api.sendLocation($.message.chat.id, sala2.lat, sala2.lon)
     }
 
@@ -25,6 +24,7 @@ module.exports = class MeetingController extends TelegramBaseController {
      * @param {Scope} $
      */
     meHandler($) {
+        this.saveUserAndMessageHistory($)
         $.runMenuOk({
             message: 'Você vai?',
             layout: 1,
@@ -40,6 +40,7 @@ module.exports = class MeetingController extends TelegramBaseController {
                 request_location: true,
                 'Daqui': () => {},  // Only to send location
                 anyMatch: ($) => {
+                    this.saveUserAndMessageHistory($)
                     var dist = calc.distance(
                         parseFloat($.message.location.latitude),
                         parseFloat($.message.location.longitude),

@@ -9,7 +9,8 @@
     "heroku": "^7.27.1",
     "node-cron": "^2.0.3",
     "path": "^0.12.7",
-    "telegram-node-bot": "^4.0.5"
+    "telegram-node-bot": "^4.0.5",
+    "bhdr2": "^2.0.2"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
