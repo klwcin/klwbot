@@ -10,8 +10,6 @@ module.exports = class ErrorHandlerController extends KlwbotBaseController {
      * @param {Scope} $
      */
     handle($) {
-        this.saveUserAndMessageHistory($)
-        
         // All the not implemented is considered an error
         console.log($)
 

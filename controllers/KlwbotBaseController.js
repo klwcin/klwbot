@@ -8,9 +8,23 @@ const Message = require('../models/Message')
  * Used to be extended by other Controllers
  */
 module.exports = class KlwbotBaseController extends TelegramBaseController {
+    /**
+     * A Bhdr2 simple pool 'Database'
+     * @param {Bhdr2} database 
+     */
     constructor(database) {
         super()
         this.database = database
+    }
+
+    /**
+     * Run before any action
+     * @param {Scope} $ 
+     */
+    before($) {
+        // Updates the current user and add the current message to history
+        this.user = this.saveUserAndMessageHistory($)
+        return $
     }
 
     /**
@@ -18,7 +32,7 @@ module.exports = class KlwbotBaseController extends TelegramBaseController {
      * @param {Scope} $
      */
     saveUserAndMessageHistory($) {
-        var user = User.find({
+        let user = User.find({
             username: $.message.from.username
         })
 
@@ -28,30 +42,5 @@ module.exports = class KlwbotBaseController extends TelegramBaseController {
 
         new Message($.message).save()
         return user
-    }
-
-    /**
-     * All that is not defined goes to the log
-     * @param {Scope} $
-     */
-    handle($) {
-        this.saveUserAndMessageHistory($)
-
-        // All the not implemented is considered a log entry
-        console.log($)
-    }
-
-    dbHandler($) {
-        this.saveUserAndMessageHistory($)
-        $.sendMessage(this.database.export('json', 2))
-    }
-
-    /**
-     * Return handlers as commands
-     */
-    get routes() {
-        return {
-            'dbCommand': 'dbHandler'
-        }
     }
 }

@@ -1,3 +1,4 @@
+// Get the database lib
 const Bhdr = require('bhdr2').Bhdr
 
 // Get models
@@ -10,5 +11,5 @@ const pool = new Bhdr(this)
 // Map models
 pool.map(User, Message)
 
-// Exports
+// Exports the database
 module.exports = pool

@@ -1,7 +1,5 @@
-module.exports = class Message {
-    constructor(data) {
-        Object.keys(data).forEach((e) => {
-            this[e.replace('_', '')] = data[e]
-        })
-    }
-}
+// Requires and libs set
+const BaseModel = require('./BaseModel')
+
+// The class to export
+module.exports = class Message extends BaseModel {}

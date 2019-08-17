@@ -13,35 +13,47 @@ const Database = require('./dataMappings')
 const ErrorHandlerController = require('./controllers/ErrorHandlerController')
 const ConversationController = require('./controllers/ConversationController')
 const CronController = require('./controllers/CronController')
-const MeetingController = require('./controllers/MeetingController')
-const KlwbotBaseController = require('./controllers/KlwbotBaseController')
+const LocationController = require('./controllers/LocationController')
+const AdminController = require('./controllers/AdminController')
 
 // Get Extensions
 const CorrectMenuScopeExtension = require('./extensions/CorrectMenuScopeExtension')
 
 // Create the bot
-const tg = new Telegram.Telegram(token)
+const tg = new Telegram.Telegram(token, {
+    workers: 1
+})
 
 // Create controllers instaces
 const conversation = new ConversationController(Database)
-const meeting = new MeetingController(Database)
+const location = new LocationController(Database)
 const cron = new CronController(Database)
 const err = new ErrorHandlerController(Database)
-const klw = new KlwbotBaseController(Database)
+const admin = new AdminController(Database)
 
 // Create routes
 tg.router
+    // Conversation with the bot
     .when(new TextCommand('/start', 'startCommand'), conversation)
     .when(new TextCommand('/help', 'helpCommand'), conversation)
     .when(new TextCommand('/hour', 'hourCommand'), conversation)
-    .when(new TextCommand('/place', 'placeCommand'), meeting)
-    .when(new TextCommand('/me', 'meCommand'), meeting)
     .when(new TextCommand('/toast', 'toastCommand'), conversation)
     .when(new TextCommand('/search', 'searchCommand'), conversation)
     .when(new RegexpCommand(/^[^\/]*@klwbot/g, 'mentionCommand'), conversation)
+
+    // Location related commands
+    .when(new TextCommand('/place', 'placeCommand'), location)
+    .when(new TextCommand('/me', 'meCommand'), location)
+
+    // Cron jobs related
     .when(new RegexpCommand(/\/remind/g, 'cronCommand'), cron)
     .when(new TextCommand('/stop', 'stopCommand'), cron)
-    .when(new TextCommand('/db', 'dbCommand'), klw)
+
+    // Admin features
+    .when(new TextCommand('/db', 'dbCommand'), admin)
+    .when(new TextCommand('/myhistory', 'userHistoryCommand'), admin)
+
+    // Used to handle errors
     .otherwise(err)
 
 // Add custom Scope extension

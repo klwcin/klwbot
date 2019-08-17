@@ -2,20 +2,22 @@
 const KlwbotBaseController = require('./KlwbotBaseController')
 const Caulculations = require('../utils/Calculations')
 
-// Local variables
-var calc = new Caulculations()
-var sala2 = { lat: -8.055764, lon: -34.951563 }
+// Local constant
+const calc = new Caulculations()
+const sala2 = {
+    lat: -8.055764,
+    lon: -34.951563
+}
 
 /**
- * Controls the bot meeting planning
+ * Controls the bot location related routes
  */
-module.exports = class MeetingController extends KlwbotBaseController {
+module.exports = class LocationController extends KlwbotBaseController {
     /**
      * Handler used to show meeting place
      * @param {Scope} $
      */
     placeHandler($) {
-        this.saveUserAndMessageHistory($)
         $.api.sendLocation($.message.chat.id, sala2.lat, sala2.lon)
     }
 
@@ -24,7 +26,6 @@ module.exports = class MeetingController extends KlwbotBaseController {
      * @param {Scope} $
      */
     meHandler($) {
-        this.saveUserAndMessageHistory($)
         $.runMenuOk({
             message: 'Você vai?',
             layout: 1,
@@ -38,10 +39,10 @@ module.exports = class MeetingController extends KlwbotBaseController {
                 resizeKeyboard: true,
                 oneTimeKeyboard: true,
                 request_location: true,
-                'Daqui': () => {},  // Only to send location
+                'Daqui': () => {}, // Only to send location
                 anyMatch: ($) => {
                     this.saveUserAndMessageHistory($)
-                    var dist = calc.distance(
+                    let dist = calc.distance(
                         parseFloat($.message.location.latitude),
                         parseFloat($.message.location.longitude),
                         sala2.lat,
@@ -59,7 +60,7 @@ module.exports = class MeetingController extends KlwbotBaseController {
                             'Mesmo você estando a ' + dist +
                             'km da sala 2 talvez dê pra pegar o café ainda. 😉'
                         )
-                    }else if (dist >= 0.75) {
+                    } else if (dist >= 0.75) {
                         $.sendMessage(
                             'Tais perto... só ' + dist +
                             'km. Já está indo pro café? '

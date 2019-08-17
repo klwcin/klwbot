@@ -15,7 +15,6 @@ module.exports = class ConversationController extends KlwbotBaseController {
      * @param {Scope} $
      */
     startHandler($) {
-        this.saveUserAndMessageHistory($)
         $.sendMessage(
             'E aí galera? Se for rolar um café, tamos aí.' +
             ' É só mandar um /remind que eu lembro todo mundo.' +
@@ -29,7 +28,6 @@ module.exports = class ConversationController extends KlwbotBaseController {
      * @param {Scope} $
      */
     helpHandler($) {
-        this.saveUserAndMessageHistory($)
         $.sendMessage(
             'Tá beleza @' + $.message.from.username + ', saca só o que temos por enquanto:\n\n' +
             '/start: Manda aquela mensagem inicial de boas vindas, não dever ser mais útil agora.\n\n' +
@@ -53,31 +51,29 @@ module.exports = class ConversationController extends KlwbotBaseController {
      * @param {Scope} $
      */
     mentionHandler($) {
-        var user = this.saveUserAndMessageHistory($)
-
         // Is a question
         if ($.message.text.toLowerCase().includes('?')) {
             // Search on Google
             this.searchHandler($)
             // Not a question
         } else {
-            $.sendMessage('Olá @' + user.username + '. Quais as novas?')
+            $.sendMessage('Olá @' + this.user.username + '. Quais as novas?')
             // Wait for response
             $.waitForRequest.then(($) => {
                 // Same user
-                if ($.message.from.username === user.username) {
+                if ($.message.from.username === this.user.username) {
                     $.sendMessage('Interessante... mas não sei o que dizer sobre isso. 🤔')
                     // Other user
                 } else {
                     $.sendMessage(
                         `Só um momento @${$.message.from.username}` +
-                        'vou só responder @' + user.username + 'rapidinho. 😁'
+                        'vou só responder @' + this.user.username + 'rapidinho. 😁'
                     )
 
                     // Wait again
                     $.waitForRequest.then(($) => {
                         // Same user
-                        if ($.message.from.username === user.username) {
+                        if ($.message.from.username === this.user.username) {
                             $.sendMessage('Tem muita gente falando aqui. Depois a gente conversa.')
                             // Other user again
                         } else {
@@ -94,10 +90,8 @@ module.exports = class ConversationController extends KlwbotBaseController {
      * @param {Scope} $ 
      */
     searchHandler($) {
-        this.saveUserAndMessageHistory($)
-
         //Remove mention from search
-        var searchTerm = $.message.text.toLowerCase().replace(/@klwbot/gi, '').replace(/\/search /gi, '')
+        let searchTerm = $.message.text.toLowerCase().replace(/@klwbot/gi, '').replace(/\/search /gi, '')
 
         // Search on google
         google(searchTerm, (err, res) => {
@@ -144,10 +138,9 @@ module.exports = class ConversationController extends KlwbotBaseController {
      * @param {Scope} $ 
      */
     hourHandler($) {
-        this.saveUserAndMessageHistory($)
         $.sendMessage(
             'A hora aqui no servidor agora é: ' +
-            new Date().toLocaleTimeString() + '.'
+            new Date().toLocaleTimeString(this._localization) + 'h.'
         )
     }
 
@@ -156,7 +149,6 @@ module.exports = class ConversationController extends KlwbotBaseController {
      * @param {Scope} $ 
      */
     toastHandler($) {
-        this.saveUserAndMessageHistory($)
         $.sendMessage(
             'Um brinde a nós! E ao grande Kopi Luwak. ☕'
         )
