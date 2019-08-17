@@ -138,9 +138,14 @@ module.exports = class ConversationController extends KlwbotBaseController {
      * @param {Scope} $ 
      */
     hourHandler($) {
+        let dateString = new Date().toLocaleTimeString()
+        if (!dateString.includes('M')) {
+            dateString = dateString + 'h'
+        }
+
         $.sendMessage(
             'A hora aqui no servidor agora é: ' +
-            new Date().toLocaleTimeString(this._localization) + 'h.'
+            dateString + '.'
         )
     }
 
