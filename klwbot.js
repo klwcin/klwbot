@@ -51,7 +51,7 @@ tg.router
 
     // Admin features
     .when(new TextCommand('/db', 'dbCommand'), admin)
-    .when(new TextCommand('/myhistory', 'userHistoryCommand'), admin)
+    .when(new RegexpCommand(/\/myhistory/g, 'userHistoryCommand'), admin)
 
     // Used to handle errors
     .otherwise(err)

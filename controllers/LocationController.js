@@ -18,6 +18,7 @@ module.exports = class LocationController extends KlwbotBaseController {
      * @param {Scope} $
      */
     placeHandler($) {
+        $.sendMessage('A sala 2 fica aqui ó @' + this.user.username + ':')
         $.api.sendLocation($.message.chat.id, sala2.lat, sala2.lon)
     }
 

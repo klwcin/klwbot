@@ -30,7 +30,7 @@ module.exports = class CorrectMenuScopeExtension extends BaseScopeExtension {
         if (menuData.layout) {
             let lineIndex = 0
 
-            keys.forEach(key => {
+            keys.forEach((key) => {
                 if (ignoredKeys.indexOf(key) === -1) {
                     if (!keyboard[lineIndex])
                         keyboard[lineIndex] = []
@@ -74,7 +74,7 @@ module.exports = class CorrectMenuScopeExtension extends BaseScopeExtension {
         this.sendMessage(startMessage, options)
 
         this.waitForRequest
-            .then($ => {
+            .then(($) => {
                 if (keys.indexOf($.message.text) > -1 &&
                     ignoredKeys.indexOf($.message.text) === -1) {
                     if (typeof menuData[$.message.text] === 'object') {
