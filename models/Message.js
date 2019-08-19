@@ -21,8 +21,10 @@ module.exports = class Message extends BaseModel {
             })
             this.date = new Date(messageData.date * 1000)
             this.text = messageData.text
-            if ((messageData.entities) && (messageData.entities.size > 0)) {
-                this.type = messageData.entities[0].type
+            if (messageData.entities !== null) {
+                if (messageData.entities.length > 0) {
+                    this.type = messageData.entities[0].type
+                }
             }
             this.location = messageData.location
             this.chat = Chat.find({
