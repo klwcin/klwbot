@@ -12,11 +12,11 @@ module.exports = class AdminController extends KlwbotBaseController {
      * @param {Scope} $ 
      */
     userHistoryHandler($) {
-        let messages = Message.findWhere((message) => {
-            return message.from.id === this.user.id
+        let messages = Message.findBy({
+            user: this.user
         })
 
-        $.sendMessage('Tudo que eu lembro que você me mandou foi isso:')
+        $.sendMessage('Tudo que eu lembro que você me mandou foi isso, @' + this.user.username + ':')
         messages.forEach((message) => {
             $.sendMessage(message)
         })
@@ -27,7 +27,7 @@ module.exports = class AdminController extends KlwbotBaseController {
      * @param {Scope} $ 
      */
     dbHandler($) {
-        $.sendMessage('A base está assim:')
+        $.sendMessage('A base está assim, @' + this.user.username + ':')
         $.sendMessage(this.database.export('json', 2))
     }
 

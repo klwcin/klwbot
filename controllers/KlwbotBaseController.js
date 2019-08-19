@@ -2,6 +2,7 @@
 const Telegram = require('telegram-node-bot')
 const TelegramBaseController = Telegram.TelegramBaseController
 const User = require('../models/User')
+const Chat = require('../models/Chat')
 const Message = require('../models/Message')
 
 /**
@@ -23,7 +24,7 @@ module.exports = class KlwbotBaseController extends TelegramBaseController {
      */
     before($) {
         // Updates the current user and add the current message to history
-        this.user = this.saveUserAndMessageHistory($)
+        this.user = this.saveUpdate($)
         return $
     }
 
@@ -31,13 +32,21 @@ module.exports = class KlwbotBaseController extends TelegramBaseController {
      * All Messages goes to the history
      * @param {Scope} $
      */
-    saveUserAndMessageHistory($) {
+    saveUpdate($) {
         let user = User.find({
-            username: $.message.from.username
+            id: $.message.from.id
         })
 
         if (!user) {
             user = new User($.message.from).save()
+        }
+
+        let chat = Chat.find({
+            id: $.message.chat.id
+        })
+
+        if (!chat) {
+            new Chat($.message.chat).save()
         }
 
         new Message($.message).save()

@@ -29,7 +29,7 @@ module.exports = class ConversationController extends KlwbotBaseController {
      */
     helpHandler($) {
         $.sendMessage(
-            'Tá beleza @' + $.message.from.username + ', saca só o que temos por enquanto:\n\n' +
+            'Tá beleza @' + this.user.username + ', saca só o que temos por enquanto:\n\n' +
             '/start: Manda aquela mensagem inicial de boas vindas, não dever ser mais útil agora.\n\n' +
             '/help: Bem, aqui estamos, né?\n\n' +
             '/hour: Diz a hora aqui no meu servidor. Vai que estamos em horários diferentes né?\n\n' +

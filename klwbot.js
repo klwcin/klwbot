@@ -39,7 +39,7 @@ tg.router
     .when(new TextCommand('/hour', 'hourCommand'), conversation)
     .when(new TextCommand('/toast', 'toastCommand'), conversation)
     .when(new TextCommand('/search', 'searchCommand'), conversation)
-    .when(new RegexpCommand(/^[^\/]*@klwbot/g, 'mentionCommand'), conversation)
+    .when(new RegexpCommand(/^[^\/]*@klwbot[\s\S]*/g, 'mentionCommand'), conversation)
 
     // Location related commands
     .when(new TextCommand('/place', 'placeCommand'), location)

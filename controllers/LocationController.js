@@ -41,7 +41,7 @@ module.exports = class LocationController extends KlwbotBaseController {
                 request_location: true,
                 'Daqui': () => {}, // Only to send location
                 anyMatch: ($) => {
-                    this.saveUserAndMessageHistory($)
+                    this.saveUpdate($)
                     let dist = calc.distance(
                         parseFloat($.message.location.latitude),
                         parseFloat($.message.location.longitude),

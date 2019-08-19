@@ -73,7 +73,7 @@ module.exports = class CronController extends KlwbotBaseController {
                 task = cron.schedule('0 10,15 * * 1-5', () => {
                     $.sendMessage('Galera, hora do café, quem vai? Alguém já foi?')
                     // Wait for response
-                    $.waitForRequest.then($ => {
+                    $.waitForRequest.then(($) => {
                         // Bot is late :(
                         if ($.message.text.toLowerCase().includes('já')) {
                             $.sendMessage('Pô, nem me chamaram... 😭')
