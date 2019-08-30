@@ -30,8 +30,6 @@ module.exports = class AdminController extends KlwbotBaseController {
             let results = []
             Object.keys(options).forEach((key, i) => {
                 if (i > 0) {
-                    console.log(key, message[key], options[key])
-                    console.log(message)
                     if ((message[key] !== undefined) && (typeof options[key] === 'string')) {
                         results.push(message[key].includes(options[key]))
                     } else {
@@ -39,7 +37,6 @@ module.exports = class AdminController extends KlwbotBaseController {
                     }
                 }
             })
-            console.log(results)
 
             let res = true
             results.forEach((result) => {

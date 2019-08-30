@@ -1,5 +1,5 @@
 // Get the database lib
-const Bhdr = require('bhdr2').Bhdr
+const Bhdr = require('bhdr2')
 
 // Get models
 const User = require('./models/User')
