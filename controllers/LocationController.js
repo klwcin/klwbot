@@ -4,7 +4,7 @@ const Caulculations = require('../utils/Calculations')
 
 // Local constant
 const calc = new Caulculations()
-const sala2 = {
+const room2 = {
     lat: -8.055764,
     lon: -34.951563
 }
@@ -19,7 +19,7 @@ module.exports = class LocationController extends KlwbotBaseController {
      */
     placeHandler($) {
         $.sendMessage('A sala 2 fica aqui ó @' + this.user.username + ':')
-        $.api.sendLocation($.message.chat.id, sala2.lat, sala2.lon)
+        $.api.sendLocation($.message.chat.id, room2.lat, room2.lon)
     }
 
     /**
@@ -46,8 +46,8 @@ module.exports = class LocationController extends KlwbotBaseController {
                     let dist = calc.distance(
                         parseFloat($.message.location.latitude),
                         parseFloat($.message.location.longitude),
-                        sala2.lat,
-                        sala2.lon
+                        room2.lat,
+                        room2.lon
                     )
 
                     // Message based on location

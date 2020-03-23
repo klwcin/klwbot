@@ -20,7 +20,7 @@ const AdminController = require('./controllers/AdminController')
 const CorrectMenuScopeExtension = require('./extensions/CorrectMenuScopeExtension')
 
 // Create the bot
-const tg = new Telegram.Telegram(token, {
+const klwbot = new Telegram.Telegram(token, {
     workers: 1
 })
 
@@ -32,7 +32,7 @@ const err = new ErrorHandlerController(Database)
 const admin = new AdminController(Database)
 
 // Create routes
-tg.router
+klwbot.router
     // Conversation with the bot
     .when(new TextCommand('/start', 'startCommand'), conversation)
     .when(new TextCommand('/help', 'helpCommand'), conversation)
@@ -57,4 +57,4 @@ tg.router
     .otherwise(err)
 
 // Add custom Scope extension
-tg.addScopeExtension(CorrectMenuScopeExtension)
+klwbot.addScopeExtension(CorrectMenuScopeExtension)
