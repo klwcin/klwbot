@@ -4,7 +4,7 @@
   "description": "KLWCIn Telegram Bot",
   "main": "klwbot.js",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "google": "^2.1.0",
     "heroku": "^7.27.1",
     "node-cron": "^2.0.3",
